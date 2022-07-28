@@ -1,0 +1,170 @@
+﻿@model IEnumerable<AwIngenieriaSoftware.Models.Usuario>
+<section class="content-header">
+    <h1>
+        Usuarios
+        <small>búsqueda</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/Usuario/Index"> Usuarios</a></li>
+        <li class="active">Lista</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+
+    <div id="modal-default" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Detalles de Usuario</h4>
+                </div>
+                <div class="modal-body" id="Preview">
+                    @*PartialView*@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Lista de Usuarios</h3>
+                    @*<button type="submit" class="btn btn-default pull-right"> Crear </button>*@
+                    <span class="pull-right">
+                        <a href="@Url.Action("Create","Usuario")" class="btn btn-sm btn-primary" title="Crear">
+                            <span class="fa fa-plus"></span> Crear
+                        </a>
+                    </span>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="col-lg-12">
+                        <div class="table-responsive no-padding">
+                            <table id="datos" class="table table-bordered table-striped table-hover table-specialresponsive">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.UserName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Email)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.LockoutEndDateUtc)
+                                        </th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td data-title="@Html.DisplayNameFor(model => model.UserName)">
+                                            @Html.DisplayFor(modelItem => item.UserName)
+                                        </td>
+                                        <td data-title="@Html.DisplayNameFor(model => model.Email)">
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+                                        <td data-title="@Html.DisplayNameFor(model => model.LockoutEndDateUtc)">
+                                            @Html.DisplayFor(modelItem => item.LockoutEndDateUtc)
+                                        </td>
+                                        <td data-title="Acciones">
+                                            @if (!item.UserName.Equals("admin"))
+                                            {
+                                                <span>
+                                                    <a href="@Url.Action("Edit", new { item.Id })" class="btn btn-xs btn-default" title="Editar">
+                                                        <span class="fa fa-pencil"></span>
+                                                    </a>
+                                                </span>
+                                            }
+                                            <span>
+                                                <a href="#" onclick="ShowModal('@item.Id')" class="btn btn-xs btn-default" title="Ver Detalles">
+                                                    <span class="fa fa-info-circle"></span>
+                                                </a>
+                                            </span>
+                                            @if (!item.UserName.Equals("admin"))
+                                            {
+                                                <span>
+                                                    <a href="#" class="btn btn-xs btn-default" onclick="Delete('@item.Id')" title="Eliminar">
+                                                        <span class="fa fa-trash"></span>
+                                                    </a>
+                                                </span>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+
+
+@section scripts{
+    <!-- DataTables -->
+    <script src="~/Content/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+    <!-- page script -->
+    <script>
+    $(function () {
+        $('#datos').DataTable();
+    });
+    function Delete(id){
+        var txt;
+        var r = confirm("¿Está seguro que desea eliminar este usuario?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("Delete", "Usuario")',
+                data: {
+                    Id: id
+                },
+                error: function (result) {
+                    alert("Se ha producio un error");
+                },
+                    success: function (result) {
+                        console.log(result);
+                    if (result == "True") {
+                        var baseUrl="/Usuario";
+                        window.location.reload();
+                    }
+                    else {
+                        alert("Hay un problema, intente más tarde!");
+                    }
+                }
+            });
+        }
+        }
+        function ShowModal(id) {
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("Details", "Usuario")',
+            data: { id: id},
+            success: function (data) {
+                $('#Preview').html(data);
+                $('#modal-default').modal('show');
+            }
+        })
+        }
+    </script>
+}
+

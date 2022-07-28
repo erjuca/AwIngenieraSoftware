@@ -1,0 +1,124 @@
+﻿@model AwIngenieriaSoftware.Models.BusquedaCabeceraAnimal
+
+@{
+    ViewBag.Title = "Animales abandonados";
+}
+@using System.Text.RegularExpressions;
+@helper StripHTML(string input)
+{
+    if (!string.IsNullOrEmpty(input))
+    {
+        input = Regex.Replace(input, "<.*?>", String.Empty);
+        <span>@input</span>
+    }
+}
+<style>
+    .break-word {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        max-width: 200px;
+        line-height: 16px; /* fallback */
+        max-height: 32px; /* fallback */
+        -webkit-line-clamp: 2; /* number of lines to show */
+        -webkit-box-orient: vertical;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <section class="content-header">
+        <h1>
+            Animales abandonados
+            <small>Lista</small>
+            <span >
+                <a href="@Url.Action("Create","Animal")" class="btn btn-sm btn-primary" title="Crear">
+                    <span class="fa fa-plus"></span> Registrar
+                </a>
+            </span>
+        </h1>
+
+        <ol class="breadcrumb">
+            <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/Animal/Index"> Animales</a></li>
+            <li class="active">Lista</li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div id="modal-default" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Detalles</h4>
+                    </div>
+                    <div class="modal-body" id="Preview">
+                        @*PartialView*@
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <main role="main" class="inner cover">
+                            <div id="map_canvas" style="height:200px"></div>
+                        </main>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @Html.Partial("ListaDetalle", Model.detalle)
+    </section>
+
+
+
+}
+
+
+@section scripts{
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyniWt02VI1DbpEzwYdBOPifJXwGTfO_0"></script>
+    <script type="text/javascript">
+        function SetMarker(lat, long) {
+            console.log(lat+" | "+long);
+            var vMarker
+            var map
+            map = new google.maps.Map(document.getElementById('map_canvas'), {
+                zoom: 14,
+                center: new google.maps.LatLng(lat, long),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            vMarker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat, long),
+                draggable: false
+            });           
+
+            map.setCenter(vMarker.position);
+            vMarker.setMap(map);
+
+        }
+
+    function ShowDetails(idAyuda, lat, long) {
+    $.ajax({
+            type: "Get",
+            url: '@Url.Action("Details", "Animal")',
+            data: { id: idAyuda, ventana:2 },
+            success: function (data) {
+                $('#Preview').html(data);
+                $('#modal-default').modal('show');
+                SetMarker(lat, long);
+           }
+        })
+
+    }
+
+     $("#modal-default").on('hidden.bs.modal', function (e) {
+            $("#modal-default iframe").attr("src", $("#modal-default iframe").attr("src"));
+     });
+    </script>
+}

@@ -1,0 +1,45 @@
+﻿@model AwIngenieriaSoftware.Models.Empresa
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = null;
+}
+    
+<div class="container">
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Ruc, "Ruc", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Ruc)">@Html.DisplayFor(model => model.Ruc)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Nombre, "Nombre", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Nombre)">@Html.DisplayFor(model => model.Nombre)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Direccion, "Direccion", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Direccion)">@Html.DisplayFor(model => model.Direccion)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Telefono, "Telefono", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Telefono)">@Html.DisplayFor(model => model.Telefono)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Mail, "Mail", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Mail)">@Html.DisplayFor(model => model.Mail)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.Label("Logo", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <img src='@Url.Action("GetLogo", "Empresa", new { id= Model.Id})' alt="Logo" class="img-fluid" width="200" height="200" />
+        </div>
+    </div>
+</div>

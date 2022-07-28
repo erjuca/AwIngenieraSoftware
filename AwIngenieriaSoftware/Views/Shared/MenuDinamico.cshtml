@@ -1,0 +1,53 @@
+﻿@model IEnumerable<AwIngenieriaSoftware.Models.Menu>
+
+
+
+@if (Model != null)
+{
+
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">OPCIONES</li>
+        @BuildMenu(Model, 0, (int)ViewBag.Root)
+    </ul>
+}
+
+@helper BuildMenu(IEnumerable<AwIngenieriaSoftware.Models.Menu> data, int tipo, int? parentId = null)
+{
+
+    var items = data.Where(d => d.MenuPadre.Id == parentId).OrderBy(i => i.Id);
+    if (items.Any())
+    {
+        if (tipo == 1)
+        {
+            @Html.Raw("<ul class='treeview-menu'>")
+
+        }
+        foreach (var item in items)
+        {
+            if (item.Items != null && item.Items.Count > 0)
+            {
+                @Html.Raw("<li class='treeview'><a href='#'><i class='" + item.Icono + "'></i><span> " + @item.Nombre + "</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span></a>")
+                @BuildMenu(data, 1, item.Id)
+            }
+            else
+            {
+                if (item.Tipo.Equals("REPORTE"))
+                {
+                    @Html.Raw("<li><a href='#' onclick=\"ShowPopup('/"+item.Controlador +"/"+item.Accion+ "')\"></i><i class='" + item.Icono + "'></i><span> " + item.Nombre + "</span></a></li>")
+                }
+                else
+                {
+                    @Html.Raw("<li><a href='" + @Url.Action(item.Accion, item.Controlador, new { area = "" }) + "'><i class='" + item.Icono + "'></i><span> " + item.Nombre + "</span></a></li>")
+                }
+
+                @BuildMenu(data, 0, item.Id)
+            }
+            @Html.Raw("</li>")
+
+        }
+        if (tipo == 1)
+        {
+            @Html.Raw("</ul>")
+        }
+    }
+}

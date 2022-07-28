@@ -1,0 +1,93 @@
+﻿@model AwIngenieriaSoftware.Models.Cliente
+
+@{
+    ViewBag.Title = "Editar Cliente";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <section class="content-header">
+        <h1>
+            Clientes
+            <small>edición</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/Cliente/Index"> Clientes</a></li>
+            <li class="active">Editar</li>
+        </ol>
+    </section>
+    <section class="content container-fluid">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title"> Editar Cliente </h3>
+            </div>
+            <form class="form-horizontal">
+                <div class="box-body">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Identificacion)
+                        @Html.EditorFor(model => model.Identificacion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Identificacion, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Nombres)
+                        @Html.EditorFor(model => model.Nombres, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Apellidos)
+                        @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Direccion)
+                        @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Telefono)
+                        @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Mail)
+                        @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Genero, "Genero")
+                        @Html.DropDownList("Genero", (SelectList)ViewBag.Generos, "NINGUNO", htmlAttributes: new { @class = "form-control select2", style = "width: 100%" })
+                        @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Estado, "Estado")
+                        @Html.DropDownList("Estado", (SelectList)ViewBag.Estados, htmlAttributes: new { @class = "form-control select2", @readonly = "readonly", style = "width: 100%" })
+                        @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="box-footer">
+                        <span>
+                            <a href="@Url.Action("Index", "Cliente")" class="btn btn-sm btn-default" title="Cancelar"> Cancelar </a>
+                        </span>
+                        <button type="submit" class="btn btn-sm btn-primary pull-right"> Guardar Cambios </button>
+                    </div>
+            </form>
+        </div>
+    </section>
+}
+@section scripts{
+    <script src="~/Content/bower_components/select2/dist/js/select2.full.min.js"></script>
+
+    <!-- page script -->
+    <script>
+        $(function () {
+            $('.select2').select2()
+        });
+    </script>
+}

@@ -1,0 +1,51 @@
+﻿@model AwIngenieriaSoftware.Models.Menu
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = null;
+}
+
+<div class="container">
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Id, "Id", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Id)">@Html.DisplayFor(model => model.Id)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.MenuPadre.Nombre, "Menú Padre", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.MenuPadre.Nombre)">@Html.DisplayFor(model => model.MenuPadre.Nombre)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Tipo, "Tipo", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Tipo)">@Html.DisplayFor(model => model.Tipo)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Controlador, "Controlador", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Controlador)">@Html.DisplayFor(model => model.Controlador)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Accion, "Acción", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Accion)">@Html.DisplayFor(model => model.Accion)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Nombre, "Nombre", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Nombre)">@Html.DisplayFor(model => model.Nombre)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Icono, "Ícono", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Icono)">@Html.DisplayFor(model => model.Icono)</span>
+        </div>
+    </div>
+</div>

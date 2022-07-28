@@ -1,0 +1,91 @@
+﻿@model AwIngenieriaSoftware.Models.RegisterViewModel2
+@{
+    ViewBag.Title = "Registrarse";
+}
+
+<div class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="#"><img id="LogoEmpresa" src='@Url.Action("GetLogo", "Empresa")' alt="" class="img-fluid" width="50" height="50" /> <b>RESCATA&nbsp;</b>&nbsp;ANIMALITOS</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            <p class="login-box-msg">Registrarse</p>
+
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Identificacion)
+                    @Html.EditorFor(model => model.Identificacion, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombres)
+                    @Html.EditorFor(model => model.Nombres, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Apellidos)
+                    @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Direccion)
+                    @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Telefono)
+                    @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Genero, "Genero")
+                    @Html.DropDownList("Genero", (SelectList)ViewBag.Generos, "NINGUNO", htmlAttributes: new { @class = "form-control select2", style = "width: 100%" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserName)
+                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Rol)
+                    @Html.DropDownList("RolLista", null, htmlAttributes: new { @class = "form-control select2", style = "width: 100%" })                    
+
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConfirmPassword)
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default" value="Registrarse" />
+                </div>
+            }
+        </div>
+        <!-- /.login-box-body -->
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

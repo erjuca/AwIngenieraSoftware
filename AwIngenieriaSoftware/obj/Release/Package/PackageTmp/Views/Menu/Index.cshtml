@@ -1,0 +1,180 @@
+﻿@model IEnumerable<AwIngenieriaSoftware.Models.Menu>
+<section class="content-header">
+    <h1>
+        Menús del Sistema
+        <small>búsqueda</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/Menu/Index"> Menús del Sistema</a></li>
+        <li class="active">Lista</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+
+    <div id="modal-default" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Detalles del Menú</h4>
+                </div>
+                <div class="modal-body" id="Preview">
+                    @*PartialView*@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Lista de Menús</h3>
+                    @*<button type="submit" class="btn btn-default pull-right"> Crear </button>*@
+                    <span class="pull-right">
+                        <a href="@Url.Action("Create","Menu")" class="btn btn-sm btn-primary" title="Crear">
+                            <span class="fa fa-plus"></span> Crear
+                        </a>
+                    </span>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="col-lg-12">
+                        <div class="table-responsive no-padding">
+                            <table id="datos" class="table table-bordered table-striped table-hover table-specialresponsive">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Menu Padre
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Nombre)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Controlador)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Accion)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Icono)
+                                        </th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td data-title="Menu Padre">
+                                                @if (item.MenuPadre != null)
+                                                {
+                                                    <span><i class="pull-right @item.MenuPadre.Icono"></i>  @Html.DisplayFor(modelItem => item.MenuPadre.Nombre)</span>
+                                                }
+                                            </td>
+                                            <td data-title="@Html.DisplayNameFor(model => model.Nombre)">
+                                                <span><i class="pull-right @item.Icono"></i>  @Html.DisplayFor(modelItem => item.Nombre)</span>
+                                            </td>
+                                            <td data-title="@Html.DisplayNameFor(model => model.Controlador)">
+                                                @Html.DisplayFor(modelItem => item.Controlador)
+                                            </td>
+                                            <td data-title="@Html.DisplayNameFor(model => model.Accion)">
+                                                @Html.DisplayFor(modelItem => item.Accion)
+                                            </td>
+                                            <td data-title="@Html.DisplayNameFor(model => model.Icono)">
+                                                @Html.DisplayFor(modelItem => item.Icono)
+                                            </td>
+                                            <td data-title="Acciones">
+                                                <span>
+                                                    <a href="@Url.Action("Edit", new { item.Id })" class="btn btn-xs btn-default" title="Editar">
+                                                        <span class="fa fa-pencil"></span>
+                                                    </a>
+                                                </span>
+                                                <span>
+                                                    <a href="#" onclick="ShowModal('@item.Id')" class="btn btn-xs btn-default" title="Ver Detalles">
+                                                        <span class="fa fa-info-circle"></span>
+                                                    </a>
+                                                </span>
+                                                <span>
+                                                    <a href="#" class="btn btn-xs btn-default" onclick="Delete('@item.Id')" title="Eliminar">
+                                                        <span class="fa fa-trash"></span>
+                                                    </a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+
+
+@section scripts{
+    <!-- DataTables -->
+    <script src="~/Content/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+    <!-- page script -->
+    <script>
+    $(function () {
+        $('#datos').DataTable();
+    });
+    function Delete(id){
+        var txt;
+        var r = confirm("¿Está seguro que desea eliminar este menú?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("Delete", "Menu")',
+                data: {
+                    Id: id
+                },
+                error: function (result) {
+                    alert("Se ha producio un error");
+                },
+                    success: function (result) {
+                        console.log(result);
+                    if (result == "True") {
+                        var baseUrl="/Menu";
+                        window.location.reload();
+                    }
+                    else {
+                        alert("Hay un problema, intente más tarde!");
+                    }
+                }
+            });
+        }
+        }
+        function ShowModal(id) {
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("Details", "Menu")',
+            data: { id: id},
+            success: function (data) {
+                $('#Preview').html(data);
+                $('#modal-default').modal('show');
+            }
+        })
+        }
+    </script>
+}
+

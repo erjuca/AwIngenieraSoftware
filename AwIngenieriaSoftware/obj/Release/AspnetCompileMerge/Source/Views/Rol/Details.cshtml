@@ -1,0 +1,14 @@
+﻿@model AwIngenieriaSoftware.Models.Rol
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = null;
+}
+<div class="container">
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Name, "Nombre Rol", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Name)">@Html.DisplayFor(model => model.Name)</span>
+        </div>
+    </div>
+</div>

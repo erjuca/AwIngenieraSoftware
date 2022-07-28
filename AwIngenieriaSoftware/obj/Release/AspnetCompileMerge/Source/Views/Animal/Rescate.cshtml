@@ -1,0 +1,119 @@
+﻿@model AwIngenieriaSoftware.Models.RegistroAbondonoAnimal
+@{
+    ViewBag.Title = "Registrar rescate de animal";
+}
+@using (Html.BeginForm("Rescate", "Animal", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <section class="content-header">
+        <h1>
+            Animal
+            <small>Rescate</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/Animal/Index"> Animales</a></li>
+            <li class="active">Rescate</li>
+        </ol>
+    </section>
+    <section class="content container-fluid">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title"> Registro de Rescate de Animal</h3>
+            </div>
+            <form class="form-horizontal">
+                <div class="box-body">
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.IdDatosAdicional)
+                    @Html.HiddenFor(model => model.EstadoAbandono)
+                    @Html.HiddenFor(model => model.EstadoSalud)
+
+                    <div class="card card-widget widget-user-2">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="widget-user-header bg-info">
+                            <div class="widget-user-image">
+                                <img class="img-circle elevation-2" style="width:70px;height:70px" src="@Url.Action("GetImagen", "Animal", new { idAnimal= @Model.Id})" alt="Foto de animal">
+                            </div>
+                            <!-- /.widget-user-image -->
+                            <h3 class="widget-user-username">@Model.Nombre</h3>
+                            <h5 class="widget-user-desc">
+                                @if (Model.EstadoAbandono.Equals("ABANDONADO"))
+                                {
+                                    <span class="label label-danger">@Model.EstadoAbandono</span>
+                                }
+                                else if (Model.EstadoAbandono.Equals("RESCATADO"))
+                                {
+                                    <span class="label label-success">@Model.EstadoAbandono</span>
+                                }
+                                else
+                                {
+                                    <span class="label label-info">@Model.EstadoAbandono</span>
+                                }
+                            </h5>
+                        </div>
+                        <div class="card-footer p-0">
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                                    <b>Raza: </b> @Model.Raza
+                                </li>
+                                <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                                    <b>Edad: </b> @Model.Edad
+                                </li>
+                                <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                                    <b>Color: </b> @Model.Color
+                                </li>
+                                <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                                    <b>Sexo: </b> @Model.Sexo
+                                </li>
+                                <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                                    <b>Salud: </b> @Model.EstadoSalud
+                                </li>
+                                <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                                    <b>Ubicación: </b> @string.Format("Latitud: {0:N10} | Longitud: {1:N10}", Model.Latitude, Model.Longitude)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.ValidationMessage("CustomError", "", new { @class = "text-danger" })
+                    </div>
+                   
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EstadoSaludNuevo, "Estado de salud actual")
+                        @Html.EditorFor(model => model.EstadoSaludNuevo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EstadoSaludNuevo, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Foto actual de animal")
+                        <input type="file" id="Foto actual de animal" name="upload" />
+                        <p class="help-block">(Tamaño recomendado 50x50px).</p>
+                    </div>
+
+                   
+                    <div class="box-footer">
+                        <span>
+                            <a href="@Url.Action("Index", "Animal")" class="btn btn-sm btn-default" title="Cancelar"> Cancelar </a>
+                        </span>
+                        <button type="submit" class="btn btn-sm btn-primary pull-right"> Guardar cambios </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+}
+@section scripts{
+    <!-- DataTables -->
+    <script src="~/Content/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/bower_components/select2/dist/js/select2.full.min.js"></script>
+    <!-- page script -->
+    <script>
+        $(function () {
+            $('.select1').select2();
+            $('.select2').select2();
+        });           
+    </script>
+}

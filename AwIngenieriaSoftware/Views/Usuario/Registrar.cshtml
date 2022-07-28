@@ -1,0 +1,94 @@
+﻿@model AwIngenieriaSoftware.Models.Usuario
+@{
+    ViewBag.Title = "Crear";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <section class="content-header">
+        <h1>
+            Usuarios
+            <small>creación</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/Usuario/Index"> Usuarios</a></li>
+            <li class="active">Crear</li>
+        </ol>
+    </section>
+    <section class="content container-fluid">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title"> Crear usuario </h3>
+            </div>
+            <form class="form-horizontal">
+                <div class="box-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UserName)
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Clientes)
+                        @Html.DropDownList("ClienteId", new SelectList(string.Empty, "Value", "Text"), "NINGUNO", htmlAttributes: new { @class = "form-control select2", style = "width: 100%", @id = "Clientes" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email)
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Password)
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="box-footer">
+                        <span>
+                            <a href="@Url.Action("Index", "Usuario")" class="btn btn-sm btn-default" title="Cancelar"> Cancelar </a>
+                        </span>
+                        <button type="submit" class="btn btn-sm btn-primary pull-right"> Crear </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+}
+@section scripts{
+    <script src="~/Content/bower_components/select2/dist/js/select2.full.min.js"></script>
+
+    <!-- page script -->
+    <script>
+        $(function () {
+            $('.select2').select2()
+        });
+
+        $("#Clientes").empty();
+        $.ajax({
+            type: 'POST',
+            url: '/JSONService/ObtenerClientes',
+            dataType: 'json',
+            success: function (data) {
+                $("#Clientes").append('<option value="">NINGUNO</option>');
+                $.each(data, function (i, item) {
+                    $("#Clientes").append('<option email="' + item.Mail + '" value="' + item.Id + '">' + item.Identificacion + ' - ' + item.Nombres + ' - ' + item.Apellidos + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Error al recuperar clientes.' + ex.responseText);
+            }
+        });
+        $("#Clientes").change(function () {
+            if (this.value == "") {
+                $("#Email").val("");
+            } else {
+                $("#Email").val($('option:selected', this).attr('email'));                
+            }
+            return false;
+        })
+    </script>
+}

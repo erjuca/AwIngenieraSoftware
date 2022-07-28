@@ -1,0 +1,59 @@
+﻿@model AwIngenieriaSoftware.Models.UsuarioRol
+
+@{
+    ViewBag.Title = "Crear";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <section class="content-header">
+        <h1>
+            Asignar Rol a Usuarios
+            <small>creación</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/UsuarioRol/Index"> Asignar Rol a Usuarios</a></li>
+            <li class="active">Crear</li>
+        </ol>
+    </section>
+    <section class="content container-fluid">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title"> Crear asignación </h3>
+            </div>
+            <form class="form-horizontal">
+                <div class="box-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SelectedUsuario)
+                        @Html.DropDownList("UsuarioLista", null, htmlAttributes: new { @class = "form-control select2", style = "width: 100%" })
+                        @Html.ValidationMessageFor(model => model.SelectedUsuario, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SelectedRol)
+                        @Html.DropDownList("RolLista", null, htmlAttributes: new { @class = "form-control select2", style = "width: 100%" })
+                        @Html.ValidationMessageFor(model => model.SelectedRol, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="box-footer">
+                        <span>
+                            <a href="@Url.Action("Index", "UsuarioRol")" class="btn btn-sm btn-default" title="Cancelar"> Cancelar </a>
+                        </span>
+                        <button type="submit" class="btn btn-sm btn-primary pull-right"> Crear </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+}
+@section scripts{
+    <script src="~/Content/bower_components/select2/dist/js/select2.full.min.js"></script>
+
+    <!-- page script -->
+    <script>
+        $(function () {
+            $('.select2').select2()
+        });
+    </script>
+}

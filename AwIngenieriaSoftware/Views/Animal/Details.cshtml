@@ -1,0 +1,75 @@
+﻿@model AwIngenieriaSoftware.Models.RegistroAbondonoAnimal
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <!-- Widget: user widget style 2 -->
+        <div class="card card-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-info">
+                <div class="widget-user-image">
+                    <img class="img-circle elevation-2" style="width:70px;height:70px" src="@Url.Action("GetImagen", "Animal", new { idAnimal= @Model.Id})" alt="Foto de animal">
+                </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username">@Model.Nombre</h3>
+                <h5 class="widget-user-desc">
+                    @if (Model.EstadoAbandono.Equals("ABANDONADO"))
+                    {
+                        <span class="label label-danger">@Model.EstadoAbandono</span>
+                    }
+                    else if (Model.EstadoAbandono.Equals("RESCATADO"))
+                    {
+                        <span class="label label-success">@Model.EstadoAbandono</span>
+                    }
+                    else
+                    {
+                        <span class="label label-info">@Model.EstadoAbandono</span>
+                    }
+                </h5>
+            </div>
+            <div class="card-footer p-0">
+                <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                        <b>Raza: </b> @Model.Raza
+                    </li>
+                    <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                        <b>Edad: </b> @Model.Edad
+                    </li>
+                    <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                        <b>Color: </b> @Model.Color
+                    </li>
+                    <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                        <b>Sexo: </b> @Model.Sexo
+                    </li>
+                    <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                        <b>Salud: </b> @Model.EstadoSalud
+                    </li>
+                    <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                        <b>Ubicación: </b> @string.Format("Latitud: {0:N10} | Longitud: {1:N10}", Model.Latitude, Model.Longitude)
+                    </li>
+                    @if (Model.EstadoAbandono.Equals("RESCATADO"))
+                    {
+                        <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                            <b>Fecha de Rescate: </b> @Model.FechaRescate.ToString("yyyy-MM-dd HH:mm:ss")
+                        </li>
+                        <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                            <b>Estado de salud actual: </b> @Model.EstadoSaludNuevo
+                        </li>
+                        <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                            <b>Fundación de rescate: </b> @Model.FundacionRescate
+                        </li>
+                    }
+                </ul>
+                @if (Model.EstadoAbandono.Equals("RESCATADO"))
+                {
+                    <img class="profile-user-img img-responsive img-circle" style="width:150px;height:150px" src="@Url.Action("GetImagenRescate", "Animal", new { idAnimal= @Model.Id})" alt="Foto actual de animal">
+                }
+            </div>
+        </div>
+        <!-- /.widget-user -->
+    </div>
+    <!-- /.box-header -->
+</div>

@@ -1,0 +1,91 @@
+﻿@model IEnumerable<AwIngenieriaSoftware.Models.RegistroDonacion>
+@{
+    /**/
+
+    ViewBag.Title = "Donaciones";
+    int columns = 0;
+}
+@using System.Text.RegularExpressions;
+
+@helper StripHTML(string input)
+{
+    /**/
+
+    if (!string.IsNullOrEmpty(input))
+    {
+        input = Regex.Replace(input, "<.*?>", String.Empty);
+        if (input.Length > 100)
+        {
+            input = input.Substring(0, 100);
+            input += "...";
+        }
+        input = input.Replace("&nbsp;", " ");
+        <span>@input</span>
+    }
+}
+
+@foreach (var item in Model)
+{
+    columns++;
+    if (columns == 1)
+    {
+        @:<div class="row">
+        }
+        <div class="col-md-3">
+            <div class="box box-success">
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <img class="profile-user-img img-responsive img-circle" style="width:150px;height:150px" src="@Url.Action("GetImagen", "Donacion", new { id= item.Id})" alt="Foto de objeto">
+
+                    <h5 class="profile-username text-center">@item.Descripcion</h5>
+                    @*<strong><i class="fa fa-list-alt margin-r-5"></i> @item.Raza</strong>*@
+                    <p class="text-muted text-center">
+                        @if (item.Estado.Equals("REGISTRADO"))
+                        {
+                            <span class="label label-success">@item.Estado</span>
+                        }
+                        else
+                        {
+                            <span class="label label-danger">@item.Estado</span>
+                        }
+                    </p>
+                    <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                            <b>Fecha donación: </b> @item.FechaDonacion.ToString("yyyy-MM-dd HH:mm:ss")
+                        </li>
+                        <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                            <b>Fundación destino: </b> @item.Beneficiario
+                        </li>
+                        <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                            <b>Donante: </b> @item.Donante
+                        </li>
+                    </ul>
+                    <a href="#" class="small-box-footer" onclick="ShowDetails(@item.Id,@item.Latitude,@item.Longitude)">
+                        <i class="fa fa-arrow-circle-right"></i> Ver más
+                    </a>
+                    &nbsp;&nbsp;&nbsp;
+                    @if (item.Editable)
+                    {
+                        <a href="@Url.Action("Edit", new { item.Id })" class="small-box-foote" title="Editar">
+                            <i class="fa fa-pencil"></i> Editar
+                        </a>
+                    }
+                    &nbsp;&nbsp;&nbsp;
+                    @if (item.Recibir)
+                    {
+                        <a href="@Url.Action("Recibir", new { item.Id })" class="small-box-foote" title="Recibir">
+                            <i class="fa fa-fw fa-gift"></i> Recibir
+                        </a>
+                    }
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        if (columns == 4)
+        {
+        @:</div>
+        columns = 0;
+    }
+}

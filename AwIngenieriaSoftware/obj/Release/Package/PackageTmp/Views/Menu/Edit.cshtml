@@ -1,0 +1,89 @@
+﻿@model AwIngenieriaSoftware.Models.Menu
+
+@{
+    ViewBag.Title = "Editar";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <section class="content-header">
+        <h1>
+            Menús del Sistema
+            <small>edición</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/Menu/Index"> Menús del Sistema</a></li>
+            <li class="active">Editar</li>
+        </ol>
+    </section>
+    <section class="content container-fluid">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title"> Editar menú </h3>
+            </div>
+            <form class="form-horizontal">
+                <div class="box-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Tipo, "Tipos")
+                        @Html.DropDownList("Tipo", (SelectList)ViewBag.Tipos, htmlAttributes: new { @class = "form-control select2", style = "width: 100%" })
+                        @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Controlador)
+                        @Html.EditorFor(model => model.Controlador, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Controlador, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Accion)
+                        @Html.EditorFor(model => model.Accion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Accion, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Nombre)
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Icono)
+                        @Html.DropDownList("Icono", (SelectList)ViewBag.Iconos, "NINGUNO", htmlAttributes: new { @class = "form-control select2", style = "width: 100%" })
+                        @Html.ValidationMessageFor(model => model.Icono, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MenuPadreId)
+                        @Html.DropDownList("MenuPadreId", (SelectList)ViewBag.Menus, "Ninguno", htmlAttributes: new { @class = "form-control select2", style = "width: 100%" })
+                        @Html.ValidationMessageFor(model => model.MenuPadreId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="box-footer">
+                        <span>
+                            <a href="@Url.Action("Index", "Menu")" class="btn btn-sm btn-default" title="Cancelar"> Cancelar </a>
+                        </span>
+                        <button type="submit" class="btn btn-sm btn-primary pull-right"> Guardar cambios </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+}
+@section scripts{
+    <!-- DataTables -->
+    <script src="~/Content/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/bower_components/select2/dist/js/select2.full.min.js"></script>
+
+    <!-- page script -->
+    <script>
+        $(function () {
+            $('.select1').select2();
+            $('.select2').select2();
+        });
+    </script>
+}

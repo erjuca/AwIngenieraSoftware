@@ -1,0 +1,51 @@
+﻿@model AwIngenieriaSoftware.Models.Usuario
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = null;
+}
+
+<div class="container">
+    <div class="form-group row">
+        @Html.LabelFor(model => model.UserName, "Usuario", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.UserName)">@Html.DisplayFor(model => model.UserName)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Email)">@Html.DisplayFor(model => model.Email)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.LockoutEndDateUtc, "Finalización Bloqueo", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.LockoutEndDateUtc)">@Html.DisplayFor(model => model.LockoutEndDateUtc)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.AccessFailedCount, "Accesos fallidos", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.AccessFailedCount)">@Html.DisplayFor(model => model.AccessFailedCount)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.LockoutEnabled, "Bloqueo habilitado", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.LockoutEnabled)">@Html.DisplayFor(model => model.LockoutEnabled)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.ClienteId, "Id Cliente", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.ClienteId)">@Html.DisplayFor(model => model.ClienteId)</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.ClienteNombre, "Nombre Cliente", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+        <div class="col-sm-9 col-lg-10">
+            <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.ClienteNombre)">@Html.DisplayFor(model => model.ClienteNombre)</span>
+        </div>
+    </div>
+</div>

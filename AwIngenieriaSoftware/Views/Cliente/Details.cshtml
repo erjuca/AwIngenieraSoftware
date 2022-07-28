@@ -1,0 +1,59 @@
+﻿@model AwIngenieriaSoftware.Models.Cliente
+
+@{
+    ViewBag.Title = "Detalles de cliente";
+}
+<section class="content-header">
+    <h1>
+        Clientes
+        <small>detalles</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/Cliente/Index"> Clientes</a></li>
+        <li class="active">Detalles</li>
+    </ol>
+</section>
+<section class="content container-fluid">
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title"> Detalles de Cliente </h3>
+            <span class="pull-right">
+                <a href="@Url.Action("Index","Cliente")" class="btn btn-sm btn-default" title="Crear">
+                    <span class="fa fa-arrow-circle-left"></span> Regresar
+                </a>
+            </span>
+        </div>
+        <div class="box-body">
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Identificacion, "Identificación", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+                <div class="col-sm-9 col-lg-10">
+                    <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Identificacion)">@Html.DisplayFor(model => model.Identificacion)</span>
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Nombres, "Nombres", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+                <div class="col-sm-9 col-lg-10">
+                    <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Nombres)">@string.Format("{0} {1}", Model.Nombres, Model.Apellidos)</span>
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Telefono, "Teléfono", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+                <div class="col-sm-9 col-lg-10">
+                    <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Telefono)">@Html.DisplayFor(model => model.Telefono)</span>
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Direccion, "Dirección", htmlAttributes: new { @class = "col-sm-3 col-lg-2 col-form-label" })
+                <div class="col-sm-9 col-lg-10">
+                    <span class="form-control-plaintext text-secondary" runat="server" id="@Html.DisplayNameFor(model => model.Direccion)">@Html.DisplayFor(model => model.Direccion)</span>
+                </div>
+            </div>
+            @foreach (var item in Model.ordenes)
+            {
+                @Html.Partial("../OrdenTrabajo/_PartialDetails",item)               
+            }
+
+        </div>
+    </div>
+</section>

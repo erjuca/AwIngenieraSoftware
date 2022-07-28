@@ -1,0 +1,53 @@
+﻿@model AwIngenieriaSoftware.Models.RegistroDonacion
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <!-- Widget: user widget style 2 -->
+        <div class="card card-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-success">
+                <div class="widget-user-image">
+                    <img class="img-circle elevation-2" style="width:70px;height:70px" src="@Url.Action("GetImagen", "Donacion", new { id= @Model.Id})" alt="Foto de animal">
+                </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username">@Model.Descripcion</h3>
+                <h5 class="widget-user-desc">
+                    @if (Model.Estado.Equals("REGISTRADO"))
+                    {
+                        <span class="label label-success">@Model.Estado</span>
+                    }                    
+                    else
+                    {
+                        <span class="label label-danger">@Model.Estado</span>
+                    }
+                </h5>
+            </div>
+            <div class="card-footer p-0">
+                <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                        <b>Fecha donación: </b> @Model.FechaDonacion.ToString("yyyy-MM-dd HH:mm:ss")
+                    </li>
+                    <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                        <b>Fundación destino: </b> @Model.Beneficiario
+                    </li>
+                    <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                        <b>Donante: </b> @Model.Donante
+                    </li>
+                    @if (Model.Estado.Equals("RECIBIDO"))
+                    {
+                        <li class="list-group-item" style="padding-bottom: 5px; padding-top: 5px">
+                            <b>Fecha de recepción: </b> @Model.FechaRecepcion.ToString("yyyy-MM-dd HH:mm:ss")
+                        </li>
+                    }
+                </ul>
+                
+            </div>
+        </div>
+        <!-- /.widget-user -->
+    </div>
+    <!-- /.box-header -->
+</div>

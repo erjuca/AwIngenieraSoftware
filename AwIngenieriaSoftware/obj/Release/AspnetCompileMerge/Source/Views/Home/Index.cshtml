@@ -1,0 +1,165 @@
+﻿@{
+    /**/
+
+    ViewBag.Title = "Home Page";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    @*<h1>
+            Tablero
+            <small>Panel de control</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Tablero</li>
+        </ol>*@
+</section>
+
+<section class="content">
+    <div class="col-md-12">
+        <!-- Box Comment -->
+        <div class="box box-widget">
+            <div class="box-header with-border">
+                <div class="user-block">
+                    <img class="img-circle" src="~/IMG/icono.jpg" alt="User Image">
+                    <span class="username"><a href="#">RESCATA&nbsp;&nbsp;ANIMALITOS.</a></span>
+                    <span class="description">Descripción sistema</span>
+                </div>
+                <!-- /.user-block -->
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Mark as read">
+                        <i class="fa fa-circle-o"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+                <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="margin-top:50px">
+                <!-- post text -->
+                <div class="col-sm-4">
+                    <strong>PROPÓSITO</strong>
+                    <p style="text-align:justify">
+                        Propósito.
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <strong>ALCANCE</strong>
+                    <p style="text-align:justify">
+                        Alcance
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <strong>CONCLUSIÓN</strong>
+                    <p style="text-align:justify">
+                        Conclusión
+                    </p>
+                </div>
+            </div>
+            <!-- /.box-footer -->
+            <div class="box-footer">
+                @*<div id="map_canvas" style="width:800px; height:500px;"></div>*@
+            </div>
+            <!-- /.box-footer -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</section>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyniWt02VI1DbpEzwYdBOPifJXwGTfO_0"></script>
+<script>
+    @*var cities = @Html.Raw(Json.Encode(Model));
+	//console.log(cities);
+
+
+
+    $(document).ready(function() {
+        // execute
+        (function() {
+            // map options
+            var options = {
+                zoom: 5,
+                center: new google.maps.LatLng(45.1479007,7.4386887),
+                mapTypeId: google.maps.MapTypeId.TERRAIN,
+                mapTypeControl: false
+            };
+
+            // init map
+            var map = new google.maps.Map(document.getElementById('map_canvas'), options);
+
+
+            for (var i = 0; i < cities.length; i++) {
+                // init markers
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(cities[i].Lat, cities[i].Lng),
+                    map: map,
+                    title: cities[i].Title
+                });
+
+                // process multiple info windows
+                (function(marker, i) {
+                    // add click event
+                    google.maps.event.addListener(marker, 'click', function() {
+                        infowindow = new google.maps.InfoWindow({
+                            content: cities[i].Title
+                        });
+                        infowindow.open(map, marker);
+                    });
+                })(marker, i);
+            }
+        })();
+    });*@
+
+    var vMarker
+    var map
+    map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 14,
+        center: new google.maps.LatLng(-2.896083, -79.006795),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    vMarker = new google.maps.Marker({
+        position: new google.maps.LatLng(-2.896083, -79.006795),
+        draggable: true
+    });
+    google.maps.event.addListener(vMarker, 'dragend', function (evt) {
+        $("#txtLat").val(evt.latLng.lat().toFixed(6));
+        $("#txtLng").val(evt.latLng.lng().toFixed(6));
+
+        map.panTo(evt.latLng);
+    });
+    map.setCenter(vMarker.position);
+    vMarker.setMap(map);                                                                                                                                                                                                                                                                                           
+
+    $("#txtCiudad, #txtEstado, #txtDireccion").change(function () {
+        movePin();
+    });
+
+    function movePin() {
+        var geocoder = new google.maps.Geocoder();
+        var textSelectM = $("#txtCiudad").text();
+        var textSelectE = $("#txtEstado").val();
+        var inputAddress = $("#txtDireccion").val() + ' ' + textSelectM + ' ' + textSelectE;
+        console.log(inputAddress);
+        geocoder.geocode({
+            "address": inputAddress
+        }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                vMarker.setPosition(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
+                map.panTo(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
+                $("#txtLat").val(results[0].geometry.location.lat());
+                $("#txtLng").val(results[0].geometry.location.lng());
+            }
+
+        });
+    }
+
+
+</script>
+
